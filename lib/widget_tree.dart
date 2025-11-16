@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multiplayer_game/view/home.dart';
 import 'package:multiplayer_game/view/login_register_page.dart';
-import 'auth.dart';
+import 'controller/auth.dart';
 
 class WidgetTree extends StatefulWidget{
   const WidgetTree({super.key});

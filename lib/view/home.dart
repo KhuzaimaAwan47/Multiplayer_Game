@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../auth.dart';
+import 'package:multiplayer_game/view/pages/user_games.dart';
+import 'package:multiplayer_game/view/pages/user_home.dart';
+import 'package:multiplayer_game/view/pages/user_profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,53 +11,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
 
-  final User? user = Auth().currentUser;
+  final List<Widget> _pages = [UserHome(), UserGames(), UserProfile()];
 
-  Future<void> _signOut() async {
-    await Auth().signOut();
+  void _navigateBottomBar(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
-
-  Widget _title(){
-    return Text('FireBase Auth');
-}
-
-Widget _useruid(){
-    return Text(user?.email ?? 'user email');
-}
-
-Widget _signOutButton(){
-    return ElevatedButton(
-        onPressed: _signOut,
-        child: Text('Sign Out')
-    );
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _title(),
-        centerTitle: true,
-      ),
-      body: Container(
-        width: double.infinity,
-
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.blue, Colors.white
-            ]
-          )
-        ),
-        child: Column(
-          children: [
-            _useruid(),
-            _signOutButton()
-          ],
-        ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white54,
+        onTap: _navigateBottomBar,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            activeIcon: Icon(Icons.home, color: Colors.white),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            activeIcon: Icon(Icons.videogame_asset, color: Colors.white),
+            icon: Icon(Icons.videogame_asset_outlined),
+            label: 'Games',
+          ),
+          BottomNavigationBarItem(
+            activeIcon: Icon(Icons.person, color: Colors.white),
+            icon: Icon(Icons.person_outlined),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }

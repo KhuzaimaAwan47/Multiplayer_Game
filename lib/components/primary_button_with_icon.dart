@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PrimaryButton extends StatelessWidget {
+class PrimaryButtonWithIcon extends StatelessWidget {
   final String buttonText;
   final VoidCallback onTap;
-  const PrimaryButton({super.key, required this.buttonText, required this.onTap});
+  final IconData icon;
+  const PrimaryButtonWithIcon({super.key, required this.buttonText, required this.onTap, required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.primary,
@@ -16,10 +17,8 @@ class PrimaryButton extends StatelessWidget {
           padding: EdgeInsets.all(10),
           minimumSize: Size(double.infinity, 50),
         ),
-
-        child: Text(buttonText)
+        label: Text(buttonText,style: TextStyle(fontSize: 16),),
+        icon: Icon(icon, size: 20, color: Theme.of(context).colorScheme.onPrimary,),
     );
   }
 }
-
-
