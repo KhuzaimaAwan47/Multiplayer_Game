@@ -26,3 +26,12 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+// workaround: disable the :gradle:jar task that fails due to duplicate FlutterPlugin.class
+gradle.taskGraph.whenReady {
+    allTasks.forEach { task ->
+        if (task.path == ":gradle:jar") {
+            task.enabled = false
+        }
+    }
+}
