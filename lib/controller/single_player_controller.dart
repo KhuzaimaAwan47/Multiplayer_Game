@@ -36,7 +36,12 @@ class SinglePlayerController extends GetxController {
     _finalizeMove();
 
     if (!isGameOver.value) {
-      _computerMove();
+      Future.delayed(const Duration(milliseconds: 600), () {
+        // ensure game is still active and it's computer's turn
+        if (!isGameOver.value && currentPlayer.value == computer && _hasEmptyCells()) {
+          _computerMove();
+        }
+      });
     }
   }
 
