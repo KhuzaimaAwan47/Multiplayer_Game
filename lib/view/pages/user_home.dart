@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/auth.dart';
 import '../../components/primary_button_with_icon.dart';
+import 'single_player.dart';
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -88,7 +89,17 @@ class UserHomeState extends State<UserHome> {
               height: 250,
             ),
             SizedBox(height: 50),
-            PrimaryButtonWithIcon(buttonText: 'Single Player', onTap: (){}, icon: Icons.person),
+            PrimaryButtonWithIcon(
+              buttonText: 'Single Player',
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SinglePlayer(),
+                  ),
+                );
+              },
+              icon: Icons.person,
+            ),
             SizedBox(height: 20),
             PrimaryButtonWithIcon(buttonText: 'Multi Player', onTap: (){}, icon: Icons.group),
             //SizedBox(height: 200,),
