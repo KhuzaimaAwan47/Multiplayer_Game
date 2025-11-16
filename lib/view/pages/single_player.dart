@@ -11,9 +11,11 @@ class SinglePlayer extends StatelessWidget {
     return GetBuilder<SinglePlayerController>(
       init: SinglePlayerController()..resetGame(),
       builder: (controller) {
+        final theme = Theme.of(context);
+
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Single Player'),
+            title: const Text('single player'),
             centerTitle: true,
           ),
           body: Padding(
@@ -21,23 +23,62 @@ class SinglePlayer extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                Text(
-                  controller.isGameOver.value
-                      ? (controller.winner.value == 'draw'
-                          ? "it's a draw"
-                          : controller.winner.value == controller.human
-                              ? 'you win!'
-                              : 'computer wins')
-                      : controller.currentPlayer.value == controller.human
-                          ? 'your turn'
-                          : 'computer thinking...',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'tic tac toe',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.onBackground.withOpacity(0.8),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withOpacity(0.06),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            controller.isGameOver.value
+                                ? Icons.emoji_events_outlined
+                                : Icons.videogame_asset_outlined,
+                            size: 22,
+                            color: theme.colorScheme.primary,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              controller.isGameOver.value
+                                  ? (controller.winner.value == 'draw'
+                                      ? "it's a draw"
+                                      : controller.winner.value ==
+                                              controller.human
+                                          ? 'you win this round!'
+                                          : 'computer wins this round')
+                                  : controller.currentPlayer.value ==
+                                          controller.human
+                                      ? 'your move — tap an empty square'
+                                      : 'computer is thinking...',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 Expanded(
                   child: AspectRatio(
                     aspectRatio: 1,
@@ -62,11 +103,19 @@ class SinglePlayer extends StatelessWidget {
                           onTap: () => controller.onCellTap(index),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(14),
+                              color: theme.colorScheme.surface,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.03),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                              border: Border.all(
+                                color: theme.colorScheme.primary
+                                    .withOpacity(0.07),
+                              ),
                             ),
                             alignment: Alignment.center,
                             child: icon,
@@ -76,12 +125,25 @@ class SinglePlayer extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: ElevatedButton.icon(
                     onPressed: controller.resetGame,
-                    child: const Text('new game'),
+                    icon: const Icon(Icons.refresh_rounded),
+                    label: const Text('start a new game'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 18,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      textStyle: theme.textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ],
